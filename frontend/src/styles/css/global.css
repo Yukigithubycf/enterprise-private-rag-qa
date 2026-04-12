@@ -1,0 +1,115 @@
+@import './reset.css';
+@import './nprogress.css';
+@import './transition.css';
+
+html,
+body,
+#app {
+  height: 100%;
+}
+
+html {
+  overflow-x: hidden;
+}
+
+body {
+  background:
+    radial-gradient(circle at top left, rgb(var(--warning-color) / 0.08), transparent 24%),
+    radial-gradient(circle at 86% 2%, rgb(var(--primary-color) / 0.08), transparent 28%),
+    linear-gradient(
+      180deg,
+      rgb(var(--layout-bg-color)),
+      rgb(var(--container-bg-color)) 38%,
+      rgb(var(--layout-bg-color))
+    );
+  color: rgb(var(--base-text-color));
+}
+
+.paper-page {
+  min-height: 100%;
+}
+
+.paper-card,
+.paper-stage,
+.paper-filter,
+.paper-modal :is(.n-card, .n-dialog) {
+  border: 1px solid rgb(var(--primary-color) / 0.08);
+  border-radius: 12px;
+  background: linear-gradient(180deg, rgb(var(--container-bg-color)), rgb(var(--layout-bg-color)));
+  box-shadow: 0 14px 34px -26px rgb(var(--primary-color) / 0.22);
+}
+
+.paper-card,
+.paper-stage {
+  overflow: hidden;
+}
+
+.paper-stage {
+  padding: 18px 20px;
+}
+
+.paper-filter {
+  padding: 10px 14px;
+  backdrop-filter: blur(8px);
+}
+
+.n-card.card-wrapper,
+.n-card.paper-card,
+.n-card.paper-filter {
+  --n-color: transparent;
+  --n-color-modal: transparent;
+  --n-border-color: transparent;
+  --n-border-radius: 12px;
+  --n-box-shadow: none;
+  --n-action-color: rgb(var(--layout-bg-color));
+  backdrop-filter: blur(8px);
+}
+
+.n-card.card-wrapper .n-card-header,
+.n-card.paper-card .n-card-header,
+.n-card.paper-filter .n-card-header,
+.paper-modal .n-card-header {
+  border-bottom: 1px solid rgb(var(--primary-color) / 0.08);
+}
+
+.n-card.card-wrapper .n-card__footer,
+.n-card.paper-card .n-card__footer,
+.paper-modal .n-card__footer {
+  background: rgb(var(--layout-bg-color) / 0.56);
+}
+
+.paper-filter .n-card__content {
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.paper-stage .n-scrollbar-container {
+  padding-right: 6px;
+}
+
+html.dark body {
+  background:
+    radial-gradient(circle at top left, rgb(var(--warning-color) / 0.08), transparent 22%),
+    radial-gradient(circle at 85% 0%, rgb(var(--primary-color) / 0.12), transparent 24%),
+    linear-gradient(
+      180deg,
+      rgb(var(--layout-bg-color)),
+      rgb(var(--container-bg-color)) 42%,
+      rgb(var(--layout-bg-color))
+    );
+}
+
+html.dark .paper-card,
+html.dark .paper-stage,
+html.dark .paper-filter,
+html.dark .paper-modal :is(.n-card, .n-dialog) {
+  border-color: rgb(var(--warning-color) / 0.1);
+  box-shadow: 0 18px 40px -28px rgb(0 0 0 / 0.46);
+}
+
+html.dark .n-card.card-wrapper .n-card-header,
+html.dark .n-card.paper-card .n-card-header,
+html.dark .n-card.paper-filter .n-card-header,
+html.dark .paper-modal .n-card-header {
+  border-bottom-color: rgb(var(--warning-color) / 0.1);
+}
