@@ -73,7 +73,7 @@
     </appender>
 
     <!-- 项目包日志级别配置 -->
-    <logger name="com.yuki.WenyuanKnowledgeBase" level="INFO" additivity="false">
+    <logger name="com.yuki.enterprise_private_rag_qa" level="INFO" additivity="false">
         <appender-ref ref="CONSOLE"/>
         <appender-ref ref="FILE"/>
         <appender-ref ref="ERROR_FILE"/>
@@ -81,13 +81,13 @@
     </logger>
 
     <!-- 业务日志记录器 -->
-    <logger name="com.yuki.WenyuanKnowledgeBase.business" level="INFO" additivity="false">
+    <logger name="com.yuki.enterprise_private_rag_qa.business" level="INFO" additivity="false">
         <appender-ref ref="BUSINESS_FILE"/>
         <appender-ref ref="CONSOLE"/>
     </logger>
 
     <!-- 性能日志记录器 -->
-    <logger name="com.yuki.WenyuanKnowledgeBase.performance" level="INFO" additivity="false">
+    <logger name="com.yuki.enterprise_private_rag_qa.performance" level="INFO" additivity="false">
         <appender-ref ref="PERFORMANCE_FILE"/>
     </logger>
 
@@ -113,14 +113,14 @@
 
     <!-- 开发环境配置 -->
     <springProfile name="dev">
-        <logger name="com.yuki.WenyuanKnowledgeBase" level="DEBUG"/>
+        <logger name="com.yuki.enterprise_private_rag_qa" level="DEBUG"/>
         <logger name="org.springframework.web" level="DEBUG"/>
         <logger name="org.springframework.security" level="DEBUG"/>
     </springProfile>
 
     <!-- 生产环境配置 -->
     <springProfile name="prod">
-        <logger name="com.yuki.WenyuanKnowledgeBase" level="INFO"/>
+        <logger name="com.yuki.enterprise_private_rag_qa" level="INFO"/>
         <logger name="org.springframework" level="WARN"/>
         <logger name="root" level="WARN"/>
     </springProfile>

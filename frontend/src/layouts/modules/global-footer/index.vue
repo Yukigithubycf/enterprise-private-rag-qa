@@ -6,7 +6,7 @@ defineOptions({
 
 <template>
   <DarkModeContainer class="h-full flex-center">
-    <a href="https://github.com/Yukigithubycf/WenyuanKnowledgeBase.git" target="_blank" rel="noopener noreferrer">
+    <a href="https://github.com/Yukigithubycf/enterprise-private-rag-qa.git" target="_blank" rel="noopener noreferrer">
       Copyright MIT © 2025 Enterprise Knowledge Hub
     </a>
   </DarkModeContainer>

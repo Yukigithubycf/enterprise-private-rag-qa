@@ -19,9 +19,11 @@ const sendable = computed(
 watch(wsData, val => {
   const data = JSON.parse(val);
   const assistant = list.value[list.value.length - 1];
+  if (!assistant || assistant.role !== 'assistant') return;
 
   if (data.type === 'completion' && data.status === 'finished' && assistant.status !== 'error')
     assistant.status = 'finished';
+  else if (data.type === 'stop') assistant.status = 'finished';
   if (data.error) assistant.status = 'error';
   else if (data.chunk) {
     assistant.status = 'loading';

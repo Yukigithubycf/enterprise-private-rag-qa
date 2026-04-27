@@ -72,6 +72,9 @@ admin:
 file:
   parsing:
     chunk-size: 512 # 每个文本块的最大字符数
+    parent-chunk-size: 3000 # 父块最大字符数，用于最终Prompt上下文
+    child-min-chunk-size: 180 # 子块最小字符数
+    semantic-similarity-threshold: 0.72 # 相邻句语义相似度低于该阈值时切分
     buffer-size: 8192    # 8KB 缓冲区
     max-memory-threshold: 0.8  # 80% 内存阈值
 
@@ -88,7 +91,7 @@ logging:
     org.springframework.web: DEBUG
     org.springframework.boot.autoconfigure.web.servlet: DEBUG
     org.springframework.security: DEBUG
-    com.yuki.WenyuanKnowledgeBase.service: DEBUG
+    com.yuki.enterprise_private_rag_qa.service: DEBUG
     io.minio: DEBUG
 
 log4j:
@@ -114,7 +117,7 @@ embedding:
 ai:
   prompt:
     rules: |
-      你是文渊知库知识助手，须遵守：
+      你是企业知识中枢知识助手，须遵守：
       1. 仅用简体中文作答。
       2. 回答需先给结论，再给论据。
       3. 如引用参考信息，请在句末加 (来源#编号: 文件名)。
@@ -127,5 +130,4 @@ ai:
     temperature: 0.3
     max-tokens: 2000
     top-p: 0.9
-
 

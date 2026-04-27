@@ -7,14 +7,21 @@
       "chunkId": {
         "type": "integer"
       },
+      "parentId": {
+        "type": "keyword"
+      },
       "textContent": {
         "type": "text",
         "analyzer": "ik_max_word",
         "search_analyzer": "ik_smart"
       },
+      "parentTextContent": {
+        "type": "text",
+        "index": false
+      },
       "vector": {
         "type": "dense_vector",
-        "dims": 2048,
+        "dims": 768,
         "index": true,
         "similarity": "cosine"
       },

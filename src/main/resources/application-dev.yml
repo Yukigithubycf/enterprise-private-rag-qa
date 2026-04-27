@@ -71,6 +71,9 @@ admin:
 file:
   parsing:
     chunk-size: 512 # 每个文本块的最大字符数
+    parent-chunk-size: 3000 # 父块最大字符数，用于最终Prompt上下文
+    child-min-chunk-size: 180 # 子块最小字符数
+    semantic-similarity-threshold: 0.72 # 相邻句语义相似度低于该阈值时切分
 
 elasticsearch:
   host: localhost       # Elasticsearch主机地址
@@ -82,7 +85,7 @@ logging:
     org.springframework.web: DEBUG
     org.springframework.boot.autoconfigure.web.servlet: DEBUG
     org.springframework.security: DEBUG
-    com.yuki.WenyuanKnowledgeBase.service: DEBUG
+    com.yuki.enterprise_private_rag_qa.service: DEBUG
     io.minio: DEBUG
 
 log4j:

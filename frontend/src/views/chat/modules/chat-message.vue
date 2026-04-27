@@ -46,6 +46,10 @@ const content = computed(() => {
 
   // 只对助手消息处理来源链接
   if (props.msg.role === 'assistant') {
+    if (!rawContent.trim() && props.msg.status !== 'pending') {
+      return '回答内容未保存，请重新提问。';
+    }
+
     return processSourceLinks(rawContent);
   }
 
