@@ -30,7 +30,7 @@ const isDev = import.meta.env.DEV;
 
 <template>
   <DarkModeContainer class="ml-12 h-full flex-y-center justify-between bg-transparent">
-    <div id="header-extra" class="header-pill h-full flex-col justify-center rd-12px bg-container"></div>
+    <div id="header-extra" class="header-pill h-full flex-col justify-center rd-8px bg-container"></div>
     <!-- <GlobalLogo v-if="showLogo" class="h-full" :style="{ width: themeStore.sider.width + 'px' }" /> -->
     <MenuToggler
       v-if="showMenuToggler && appStore.isMobile"
@@ -43,7 +43,7 @@ const isDev = import.meta.env.DEV;
       <GlobalBreadcrumb v-if="!appStore.isMobile" class="ml-12px" />
     </div>
 -->
-    <div class="header-pill h-full flex-y-center justify-end rd-12px bg-container px-8">
+    <div class="header-pill h-full flex-y-center justify-end rd-8px bg-container px-8">
       <GlobalSearch />
       <FullScreen v-if="!appStore.isMobile" :full="isFullscreen" @click="toggle" />
       <LangSwitch
@@ -65,13 +65,13 @@ const isDev = import.meta.env.DEV;
 
 <style scoped>
 .header-pill {
-  border: 1px solid rgb(var(--primary-color) / 0.08);
-  box-shadow: 0 12px 30px -22px rgb(var(--primary-color) / 0.24);
-  backdrop-filter: blur(10px);
+  border: 1px solid rgb(15 23 42 / 0.08);
+  border-radius: 8px;
+  box-shadow: 0 10px 28px -24px rgb(15 23 42 / 0.28);
 }
 
 html.dark .header-pill {
-  border-color: rgb(var(--warning-color) / 0.1);
+  border-color: rgb(255 255 255 / 0.08);
   box-shadow: 0 16px 34px -26px rgb(0 0 0 / 0.45);
 }
 </style>

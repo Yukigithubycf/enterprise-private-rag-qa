@@ -59,7 +59,7 @@ watch(visible, () => {
   <NModal
     v-model:show="visible"
     preset="dialog"
-    title="知识库检索"
+    title="知识库混合检索"
     :show-icon="false"
     :mask-closable="false"
     class="paper-modal w-1000px!"
@@ -74,18 +74,18 @@ watch(visible, () => {
       :show-feedback="false"
     >
       <NGrid>
-        <NFormItemGi label="topK" path="topK" class="pr-24px" span="6">
+        <NFormItemGi label="召回数" path="topK" class="pr-24px" span="6">
           <NInputNumber
             v-model:value="model.topK"
-            placeholder="请输入topK"
+            placeholder="请输入召回数量"
             clearable
             :min="1"
             :precision="0"
             :step="10"
           />
         </NFormItemGi>
-        <NFormItemGi label="关键字" path="query" class="pr-24px" span="12">
-          <NInput v-model:value="model.query" placeholder="请输入关键字" clearable />
+        <NFormItemGi label="检索词" path="query" class="pr-24px" span="12">
+          <NInput v-model:value="model.query" placeholder="请输入检索问题或关键词" clearable />
         </NFormItemGi>
         <NFormItemGi span="6">
           <NSpace class="w-full" justify="end">
@@ -112,7 +112,7 @@ watch(visible, () => {
           v-for="(item, index) in list"
           :key="index"
           :bordered="false"
-          class="paper-card my-8"
+          class="search-result-card my-8"
           :segmented="{
             content: true,
             footer: 'soft'
@@ -129,7 +129,7 @@ watch(visible, () => {
             <NTag
               :bordered="false"
               draggable
-              class="absolute right-0 top-0 bg-[rgb(var(--primary-color)/.9)] color-white hover:bg-transparent hover:color-transparent"
+              class="score-tag absolute right-0 top-0 color-white"
             >
               Score: {{ item.score }}
             </NTag>
@@ -143,4 +143,18 @@ watch(visible, () => {
   </NModal>
 </template>
 
-<style scoped></style>
+<style scoped>
+.search-result-card {
+  border: 1px solid rgb(15 23 42 / 0.08);
+  border-radius: 8px;
+  background: rgb(var(--container-bg-color));
+}
+
+.score-tag {
+  background: rgb(var(--primary-color) / 0.9);
+}
+
+html.dark .search-result-card {
+  border-color: rgb(255 255 255 / 0.08);
+}
+</style>

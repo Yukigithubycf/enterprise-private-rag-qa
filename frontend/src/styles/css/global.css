@@ -13,16 +13,9 @@ html {
 }
 
 body {
-  background:
-    radial-gradient(circle at top left, rgb(var(--warning-color) / 0.08), transparent 24%),
-    radial-gradient(circle at 86% 2%, rgb(var(--primary-color) / 0.08), transparent 28%),
-    linear-gradient(
-      180deg,
-      rgb(var(--layout-bg-color)),
-      rgb(var(--container-bg-color)) 38%,
-      rgb(var(--layout-bg-color))
-    );
+  background: rgb(var(--layout-bg-color));
   color: rgb(var(--base-text-color));
+  font-feature-settings: 'tnum';
 }
 
 .paper-page {
@@ -33,10 +26,10 @@ body {
 .paper-stage,
 .paper-filter,
 .paper-modal :is(.n-card, .n-dialog) {
-  border: 1px solid rgb(var(--primary-color) / 0.08);
-  border-radius: 12px;
-  background: linear-gradient(180deg, rgb(var(--container-bg-color)), rgb(var(--layout-bg-color)));
-  box-shadow: 0 14px 34px -26px rgb(var(--primary-color) / 0.22);
+  border: 1px solid rgb(15 23 42 / 0.08);
+  border-radius: 8px;
+  background: rgb(var(--container-bg-color));
+  box-shadow: 0 10px 28px -24px rgb(15 23 42 / 0.28);
 }
 
 .paper-card,
@@ -50,7 +43,7 @@ body {
 
 .paper-filter {
   padding: 10px 14px;
-  backdrop-filter: blur(8px);
+  background: rgb(var(--container-bg-color));
 }
 
 .n-card.card-wrapper,
@@ -59,23 +52,22 @@ body {
   --n-color: transparent;
   --n-color-modal: transparent;
   --n-border-color: transparent;
-  --n-border-radius: 12px;
+  --n-border-radius: 8px;
   --n-box-shadow: none;
-  --n-action-color: rgb(var(--layout-bg-color));
-  backdrop-filter: blur(8px);
+  --n-action-color: rgb(248 250 252);
 }
 
 .n-card.card-wrapper .n-card-header,
 .n-card.paper-card .n-card-header,
 .n-card.paper-filter .n-card-header,
 .paper-modal .n-card-header {
-  border-bottom: 1px solid rgb(var(--primary-color) / 0.08);
+  border-bottom: 1px solid rgb(15 23 42 / 0.08);
 }
 
 .n-card.card-wrapper .n-card__footer,
 .n-card.paper-card .n-card__footer,
 .paper-modal .n-card__footer {
-  background: rgb(var(--layout-bg-color) / 0.56);
+  background: rgb(248 250 252);
 }
 
 .paper-filter .n-card__content {
@@ -87,29 +79,29 @@ body {
   padding-right: 6px;
 }
 
-html.dark body {
-  background:
-    radial-gradient(circle at top left, rgb(var(--warning-color) / 0.08), transparent 22%),
-    radial-gradient(circle at 85% 0%, rgb(var(--primary-color) / 0.12), transparent 24%),
-    linear-gradient(
-      180deg,
-      rgb(var(--layout-bg-color)),
-      rgb(var(--container-bg-color)) 42%,
-      rgb(var(--layout-bg-color))
-    );
-}
-
 html.dark .paper-card,
 html.dark .paper-stage,
 html.dark .paper-filter,
 html.dark .paper-modal :is(.n-card, .n-dialog) {
-  border-color: rgb(var(--warning-color) / 0.1);
-  box-shadow: 0 18px 40px -28px rgb(0 0 0 / 0.46);
+  border-color: rgb(255 255 255 / 0.08);
+  box-shadow: 0 18px 40px -30px rgb(0 0 0 / 0.5);
 }
 
 html.dark .n-card.card-wrapper .n-card-header,
 html.dark .n-card.paper-card .n-card-header,
 html.dark .n-card.paper-filter .n-card-header,
 html.dark .paper-modal .n-card-header {
-  border-bottom-color: rgb(var(--warning-color) / 0.1);
+  border-bottom-color: rgb(255 255 255 / 0.08);
+}
+
+html.dark .n-card.card-wrapper,
+html.dark .n-card.paper-card,
+html.dark .n-card.paper-filter {
+  --n-action-color: rgb(15 23 42);
+}
+
+html.dark .n-card.card-wrapper .n-card__footer,
+html.dark .n-card.paper-card .n-card__footer,
+html.dark .paper-modal .n-card__footer {
+  background: rgb(15 23 42);
 }

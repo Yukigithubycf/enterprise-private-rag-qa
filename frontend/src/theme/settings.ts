@@ -4,8 +4,8 @@ export const themeSettings: App.Theme.ThemeSetting = {
   grayscale: false,
   colourWeakness: false,
   recommendColor: false,
-  themeColor: '#123B5D',
-  otherColor: { info: '#355C7D', success: '#5E7A5B', warning: '#A67C52', error: '#A14B45' },
+  themeColor: '#155EEF',
+  otherColor: { info: '#0E7490', success: '#16805D', warning: '#B7791F', error: '#C2413D' },
   isInfoFollowPrimary: false,
   resetCacheStrategy: 'close',
   layout: { mode: 'vertical', scrollMode: 'content', reverseHorizontalMix: false },
@@ -22,32 +22,32 @@ export const themeSettings: App.Theme.ThemeSetting = {
     mixChildMenuWidth: 200
   },
   footer: { visible: false, fixed: false, height: 48, right: true },
-  watermark: { visible: false, text: '文渊知库 ScholarVault' },
+  watermark: { visible: false, text: '企业知识中枢 Enterprise Knowledge Hub' },
   tokens: {
     light: {
       colors: {
-        container: 'rgb(255, 252, 246)',
-        layout: 'rgb(246, 243, 238)',
-        inverted: 'rgb(18, 59, 93)',
-        'base-text': 'rgb(31, 41, 55)'
+        container: 'rgb(255, 255, 255)',
+        layout: 'rgb(244, 247, 251)',
+        inverted: 'rgb(12, 31, 54)',
+        'base-text': 'rgb(20, 27, 38)'
       },
       boxShadow: {
-        header: '0 1px 2px rgb(18, 59, 93, 0.06)',
-        sider: '2px 0 10px 0 rgb(51, 70, 86, 0.06)',
-        tab: '0 1px 2px rgb(18, 59, 93, 0.06)'
+        header: '0 1px 0 rgb(15, 23, 42, 0.06)',
+        sider: '1px 0 0 0 rgb(15, 23, 42, 0.08)',
+        tab: '0 1px 0 rgb(15, 23, 42, 0.06)'
       }
     },
     dark: {
       colors: {
-        container: 'rgb(26, 33, 40)',
-        layout: 'rgb(18, 24, 30)',
-        inverted: 'rgb(230, 224, 213)',
-        'base-text': 'rgb(229, 232, 235)'
+        container: 'rgb(18, 24, 33)',
+        layout: 'rgb(12, 17, 24)',
+        inverted: 'rgb(226, 233, 242)',
+        'base-text': 'rgb(229, 234, 240)'
       },
       boxShadow: {
-        header: '0 1px 2px rgb(0, 0, 0, 0.28)',
-        sider: '2px 0 10px 0 rgb(0, 0, 0, 0.2)',
-        tab: '0 1px 2px rgb(0, 0, 0, 0.22)'
+        header: '0 1px 0 rgb(0, 0, 0, 0.28)',
+        sider: '1px 0 0 0 rgb(255, 255, 255, 0.08)',
+        tab: '0 1px 0 rgb(0, 0, 0, 0.22)'
       }
     }
   }

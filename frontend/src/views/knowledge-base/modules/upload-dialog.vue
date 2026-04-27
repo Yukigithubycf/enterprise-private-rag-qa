@@ -59,7 +59,7 @@ function onUpdate(option: unknown) {
   <NModal
     v-model:show="visible"
     preset="dialog"
-    title="文件上传"
+    title="上传知识文件"
     :show-icon="false"
     :mask-closable="false"
     class="paper-modal w-500px!"
@@ -88,7 +88,7 @@ function onUpdate(option: unknown) {
           </NSpace>
         </NRadioGroup>
       </NFormItem>
-      <NFormItem label="标签描述" path="fileList">
+      <NFormItem label="上传文件" path="fileList">
         <NUpload
           v-model:file-list="model.fileList"
           :accept="uploadAccept"
@@ -96,7 +96,7 @@ function onUpdate(option: unknown) {
           :multiple="false"
           :default-upload="false"
         >
-          <NButton>上传文件</NButton>
+          <NButton type="primary" ghost>选择文件</NButton>
         </NUpload>
       </NFormItem>
     </NForm>

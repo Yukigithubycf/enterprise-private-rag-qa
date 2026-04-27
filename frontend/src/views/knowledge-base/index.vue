@@ -120,6 +120,12 @@ const { columns, columnChecks, data, getData, loading } = useTable({
 
 const store = useKnowledgeBaseStore();
 const { tasks } = storeToRefs(store);
+
+const totalCount = computed(() => tasks.value.length);
+const completedCount = computed(() => tasks.value.filter(item => item.status === UploadStatus.Completed).length);
+const privateCount = computed(() => tasks.value.filter(item => !(item.public || item.isPublic)).length);
+const processingCount = computed(() => tasks.value.filter(item => item.status !== UploadStatus.Completed).length);
+
 onMounted(async () => {
   await getList();
 });
@@ -261,7 +267,46 @@ async function onBeforeUpload(
 
 <template>
   <div class="paper-page min-h-500px flex-col-stretch gap-16px overflow-hidden lt-sm:overflow-auto">
-    <NCard title="文件列表" :bordered="false" size="small" class="paper-card sm:flex-1-hidden card-wrapper">
+    <div class="knowledge-overview">
+      <div class="overview-card">
+        <span class="overview-icon">
+          <icon-solar:documents-bold-duotone />
+        </span>
+        <div>
+          <p>知识文件</p>
+          <strong>{{ totalCount }}</strong>
+        </div>
+      </div>
+      <div class="overview-card">
+        <span class="overview-icon success">
+          <icon-solar:check-circle-bold-duotone />
+        </span>
+        <div>
+          <p>已入库</p>
+          <strong>{{ completedCount }}</strong>
+        </div>
+      </div>
+      <div class="overview-card">
+        <span class="overview-icon warning">
+          <icon-solar:lock-keyhole-bold-duotone />
+        </span>
+        <div>
+          <p>私有文档</p>
+          <strong>{{ privateCount }}</strong>
+        </div>
+      </div>
+      <div class="overview-card">
+        <span class="overview-icon info">
+          <icon-solar:refresh-circle-bold-duotone />
+        </span>
+        <div>
+          <p>处理中</p>
+          <strong>{{ processingCount }}</strong>
+        </div>
+      </div>
+    </div>
+
+    <NCard title="知识资产" :bordered="false" size="small" class="paper-card sm:flex-1-hidden card-wrapper">
       <template #header-extra>
         <TableHeaderOperation v-model:columns="columnChecks" :loading="loading" @add="handleUpload" @refresh="getList">
           <template #prefix>
@@ -299,8 +344,79 @@ async function onBeforeUpload(
 </template>
 
 <style scoped lang="scss">
-.file-list-container {
-  transition: width 0.3s ease;
+.knowledge-overview {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.overview-card {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  min-height: 86px;
+  border: 1px solid rgb(15 23 42 / 0.08);
+  border-radius: 8px;
+  background: rgb(var(--container-bg-color));
+  padding: 16px;
+  box-shadow: 0 10px 28px -24px rgb(15 23 42 / 0.28);
+}
+
+.overview-card p {
+  margin: 0;
+  color: rgb(var(--base-text-color) / 0.58);
+  font-size: 13px;
+}
+
+.overview-card strong {
+  display: block;
+  margin-top: 4px;
+  font-size: 24px;
+  line-height: 1;
+}
+
+.overview-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 8px;
+  color: rgb(var(--primary-color));
+  background: rgb(var(--primary-color) / 0.08);
+  font-size: 24px;
+}
+
+.overview-icon.success {
+  color: rgb(var(--success-color));
+  background: rgb(var(--success-color) / 0.1);
+}
+
+.overview-icon.warning {
+  color: rgb(var(--warning-color));
+  background: rgb(var(--warning-color) / 0.1);
+}
+
+.overview-icon.info {
+  color: rgb(var(--info-color));
+  background: rgb(var(--info-color) / 0.1);
+}
+
+html.dark .overview-card {
+  border-color: rgb(255 255 255 / 0.08);
+  box-shadow: 0 18px 40px -30px rgb(0 0 0 / 0.5);
+}
+
+@media (width < 1024px) {
+  .knowledge-overview {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (width < 640px) {
+  .knowledge-overview {
+    grid-template-columns: 1fr;
+  }
 }
 
 :deep() {

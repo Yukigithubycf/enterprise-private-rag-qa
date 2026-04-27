@@ -112,9 +112,9 @@ async function handleSourceFileClick(fileName: string) {
 </script>
 
 <template>
-  <div class="mb-8 flex-col gap-2">
+  <div class="chat-message mb-7 flex-col gap-2">
     <div v-if="msg.role === 'user'" class="flex items-center gap-4">
-      <NAvatar class="bg-success">
+      <NAvatar class="user-avatar">
         <SvgIcon icon="ph:user-circle" class="text-icon-large color-white" />
       </NAvatar>
       <div class="flex-col gap-1">
@@ -127,7 +127,7 @@ async function handleSourceFileClick(fileName: string) {
         <SystemLogo class="text-6" />
       </NAvatar>
       <div class="flex-col gap-1">
-        <NText class="text-4 font-bold">文渊助手</NText>
+        <NText class="text-4 font-bold">知识库助手</NText>
         <NText class="text-3 color-gray-500">{{ formatDate(msg.timestamp) }}</NText>
       </div>
     </div>
@@ -140,8 +140,8 @@ async function handleSourceFileClick(fileName: string) {
         <VueMarkdownIt :content="content" />
       </div>
     </div>
-    <NText v-else-if="msg.role === 'user'" class="ml-12 mt-2 text-4">{{ content }}</NText>
-    <NDivider class="ml-12 w-[calc(100%-3rem)] mb-0! mt-2!" />
+    <div v-else-if="msg.role === 'user'" class="user-message-card ml-12 mt-2 text-4">{{ content }}</div>
+    <NDivider class="message-divider ml-12 w-[calc(100%-3rem)] mb-0! mt-2!" />
     <div class="ml-12 flex gap-4">
       <NButton quaternary @click="handleCopy(msg.content)">
         <template #icon>
@@ -153,10 +153,14 @@ async function handleSourceFileClick(fileName: string) {
 </template>
 
 <style scoped lang="scss">
+.user-avatar {
+  background: rgb(var(--success-color));
+}
+
 :deep(.assistant-avatar) {
-  background: rgb(var(--container-bg-color));
-  border: 1px solid rgb(var(--primary-color) / 0.12);
-  box-shadow: 0 8px 20px -16px rgb(var(--primary-color) / 0.28);
+  color: rgb(var(--primary-color));
+  background: rgb(var(--primary-color) / 0.08);
+  border: 1px solid rgb(var(--primary-color) / 0.14);
 }
 
 .assistant-message-shell {
@@ -165,12 +169,20 @@ async function handleSourceFileClick(fileName: string) {
 
 :deep(.assistant-message-card) {
   max-width: min(100%, 60rem);
-  border: 1px solid rgb(var(--primary-color) / 0.08);
-  border-radius: 14px;
-  background:
-    linear-gradient(180deg, rgb(var(--container-bg-color)), rgb(var(--layout-bg-color) / 0.72));
-  box-shadow: 0 16px 36px -30px rgb(var(--primary-color) / 0.24);
+  border: 1px solid rgb(15 23 42 / 0.08);
+  border-radius: 8px;
+  background: rgb(248 250 252);
   padding: 16px 18px;
+}
+
+.user-message-card {
+  max-width: min(100%, 48rem);
+  border: 1px solid rgb(var(--primary-color) / 0.1);
+  border-radius: 8px;
+  background: rgb(var(--primary-color) / 0.06);
+  padding: 12px 14px;
+  line-height: 1.75;
+  white-space: pre-wrap;
 }
 
 :deep(.assistant-message-card > :first-child) {
@@ -209,8 +221,8 @@ async function handleSourceFileClick(fileName: string) {
 :deep(.assistant-message-card pre) {
   overflow-x: auto;
   border: 1px solid rgb(var(--primary-color) / 0.08);
-  border-radius: 12px;
-  background: rgb(var(--layout-bg-color)) !important;
+  border-radius: 8px;
+  background: rgb(var(--container-bg-color)) !important;
   margin: 1em 0;
 }
 
@@ -220,9 +232,9 @@ async function handleSourceFileClick(fileName: string) {
 }
 
 :deep(.assistant-message-card blockquote) {
-  border-left: 3px solid rgb(var(--warning-color) / 0.58);
-  border-radius: 0 10px 10px 0;
-  background: rgb(var(--warning-color) / 0.06);
+  border-left: 3px solid rgb(var(--info-color) / 0.58);
+  border-radius: 0 8px 8px 0;
+  background: rgb(var(--info-color) / 0.06);
   margin: 1em 0;
   padding: 10px 14px;
 }
@@ -234,9 +246,10 @@ async function handleSourceFileClick(fileName: string) {
 }
 
 :deep(.source-file-link) {
-  color: rgb(var(--warning-color));
+  color: rgb(var(--primary-color));
   cursor: pointer;
-  text-decoration: underline;
+  font-weight: 600;
+  text-decoration: none;
   transition: color 0.2s;
 
   &:hover {
@@ -245,36 +258,47 @@ async function handleSourceFileClick(fileName: string) {
   }
 
   &:active {
-    color: rgb(var(--warning-700-color));
+    color: rgb(var(--primary-700-color));
   }
 }
 
+:deep(.message-divider.n-divider) {
+  --n-color: rgb(15 23 42 / 0.06);
+}
+
 html.dark :deep(.assistant-avatar) {
-  border-color: rgb(var(--warning-color) / 0.14);
-  box-shadow: 0 10px 22px -18px rgb(0 0 0 / 0.42);
+  border-color: rgb(var(--primary-color) / 0.2);
 }
 
 html.dark :deep(.assistant-message-card) {
-  border-color: rgb(var(--warning-color) / 0.1);
-  background:
-    linear-gradient(180deg, rgb(var(--container-bg-color)), rgb(var(--layout-bg-color) / 0.8));
-  box-shadow: 0 18px 40px -32px rgb(0 0 0 / 0.42);
+  border-color: rgb(255 255 255 / 0.08);
+  background: rgb(15 23 42);
+}
+
+html.dark .user-message-card {
+  border-color: rgb(var(--primary-color) / 0.22);
+  background: rgb(var(--primary-color) / 0.12);
 }
 
 html.dark :deep(.assistant-message-card code) {
-  background: rgb(var(--warning-color) / 0.08);
+  background: rgb(var(--primary-color) / 0.12);
 }
 
 html.dark :deep(.assistant-message-card pre) {
-  border-color: rgb(var(--warning-color) / 0.1);
+  border-color: rgb(255 255 255 / 0.08);
+  background: rgb(2 6 23) !important;
 }
 
 html.dark :deep(.assistant-message-card blockquote) {
-  border-left-color: rgb(var(--warning-color) / 0.5);
-  background: rgb(var(--warning-color) / 0.08);
+  border-left-color: rgb(var(--info-color) / 0.5);
+  background: rgb(var(--info-color) / 0.12);
 }
 
 html.dark :deep(.assistant-message-card hr) {
-  border-top-color: rgb(var(--warning-color) / 0.1);
+  border-top-color: rgb(255 255 255 / 0.08);
+}
+
+html.dark :deep(.message-divider.n-divider) {
+  --n-color: rgb(255 255 255 / 0.08);
 }
 </style>
