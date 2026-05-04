@@ -224,6 +224,45 @@ public class HybridSearchService {
         return results;
     }
 
+    // ========================================================================
+    // Public search methods for MultiRouteRetriever (Phase 2)
+    // ========================================================================
+
+    /**
+     * 通过文本进行语义检索（自动 embedding）。
+     * 供 MultiRouteRetriever 调用。
+     */
+    public List<SearchResult> semanticSearchByText(String text, Query permissionFilter, int topK) {
+        List<Float> vector = embedToVectorList(text);
+        if (vector == null) {
+            logger.warn("语义检索 embedding 失败，返回空列表: {}", text);
+            return Collections.emptyList();
+        }
+        return safeSemanticSearch(vector, permissionFilter, getRecallK(topK));
+    }
+
+    /**
+     * 通过文本进行关键词检索。
+     * 供 MultiRouteRetriever 调用。
+     */
+    public List<SearchResult> keywordSearchByText(String query, Query permissionFilter, int topK, boolean minScore) {
+        return safeKeywordSearch(query, permissionFilter, getRecallK(topK), minScore);
+    }
+
+    /**
+     * 构建带权限的 ES 查询 filter。
+     * 供 MultiRouteRetriever 获取统一的权限过滤条件。
+     */
+    public Query buildPermissionFilter(String userId) {
+        List<String> userEffectiveTags = getUserEffectiveOrgTags(userId);
+        String userDbId = getUserDbId(userId);
+        return buildPermissionFilter(userDbId, userEffectiveTags);
+    }
+
+    // ========================================================================
+    // Private search methods
+    // ========================================================================
+
     private List<SearchResult> safeSemanticSearch(List<Float> queryVector, Query permissionFilter, int recallK) {
         try {
             return semanticSearch(queryVector, permissionFilter, recallK);

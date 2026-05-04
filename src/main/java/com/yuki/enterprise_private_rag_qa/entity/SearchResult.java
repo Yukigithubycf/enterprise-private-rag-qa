@@ -15,6 +15,18 @@ public class SearchResult {
     private String orgTag;     // 组织标签
     private Boolean isPublic;  // 是否公开
 
+    // === 多路召回 + RRF + Cross-Encoder + MMR 链路追踪字段 ===
+    private String retrievalSource;   // 召回路标识：raw_bm25/raw_vector/cleaned_bm25/rewrite_vector/rewrite_bm25/hyde_vector/entity_bm25/reflection_bm25/reflection_vector
+    private int rank;                 // 该路内部的排名（1-based）
+    private String queryUsed;         // 本次检索使用的 query 文本
+    private double rrfScore;          // RRF 融合分数
+    private int rrfRank;              // RRF 排名
+    private double crossScore;        // Cross-Encoder 精排分数
+    private int crossRank;            // Cross-Encoder 排名
+    private double mmrScore;          // MMR 多样性过滤分数
+    private int finalRank;            // 最终排名
+    private java.util.List<String> retrievalSources; // 多路来源列表（RRF 融合后）
+
     public SearchResult(String fileMd5, Integer chunkId, String textContent, Double score) {
         this(fileMd5, chunkId, null, textContent, null, score, null, null, false, null);
     }

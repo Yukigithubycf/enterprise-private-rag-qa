@@ -77,3 +77,14 @@ frontend/src/typings/auto-imports.d.ts
 frontend/public/languages
 frontend/public/themes
 src/main/resources/application.yml~
+
+# Project specific
+learn/
+modify/
+.claude/
+
+# Dev log files
+backend-dev.err
+backend-dev.out
+ollama-dev.err
+ollama-dev.out

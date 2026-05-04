@@ -129,3 +129,39 @@ ai:
     temperature: 0.3
     max-tokens: 2000
     top-p: 0.9
+
+rag:
+  pipeline:
+    enable-query-rewrite: true
+    enable-hyde: true
+    enable-reflection: true
+    max-reflection-rounds: 1
+  intent:
+    enable-llm: false
+    llm-temperature: 0.1
+  retrieval:
+    raw-bm25-top-k: 30
+    raw-vector-top-k: 30
+    cleaned-bm25-top-k: 20
+    rewrite-vector-top-k: 15
+    rewrite-bm25-top-k: 10
+    hyde-vector-top-k: 30
+    entity-bm25-top-k: 10
+  rrf:
+    k: 60
+    top-n: 80
+  cross-encoder:
+    model: "BAAI/bge-reranker-v2-m3"
+  mmr:
+    lambda: 0.7
+    similarity-threshold: 0.82
+    check-top-n: 20
+    cliff-threshold: 0.3
+  final-selection:
+    top-k: 8
+    enable-parent-aggregation: true
+  reflection:
+    model: ""
+    temperature: 0.1
+    supplementary-bm25-top-k: 10
+    supplementary-vector-top-k: 10

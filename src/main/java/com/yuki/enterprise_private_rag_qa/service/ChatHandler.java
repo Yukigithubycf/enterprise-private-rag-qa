@@ -5,6 +5,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.yuki.enterprise_private_rag_qa.client.DeepSeekClient;
 import com.yuki.enterprise_private_rag_qa.entity.SearchResult;
+import com.yuki.enterprise_private_rag_qa.service.rag.RagPipeline;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,6 +36,7 @@ public class ChatHandler {
     private final RedisTemplate<String, String> redisTemplate;
     private final HybridSearchService searchService;
     private final DeepSeekClient deepSeekClient;
+    private final RagPipeline ragPipeline;
     private final ObjectMapper objectMapper;
     
     // 用于存储每个会话的完整响应
@@ -48,10 +50,12 @@ public class ChatHandler {
 
     public ChatHandler(RedisTemplate<String, String> redisTemplate,
                       HybridSearchService searchService,
-                      DeepSeekClient deepSeekClient) {
+                      DeepSeekClient deepSeekClient,
+                      RagPipeline ragPipeline) {
         this.redisTemplate = redisTemplate;
         this.searchService = searchService;
         this.deepSeekClient = deepSeekClient;
+        this.ragPipeline = ragPipeline;
         this.objectMapper = new ObjectMapper();
     }
 
@@ -74,15 +78,22 @@ public class ChatHandler {
             List<Map<String, String>> history = getConversationHistory(conversationId);
             logger.debug("获取到 {} 条历史对话", history.size());
             
-            // 3. 执行带权限过滤的混合搜索
-            List<SearchResult> searchResults = searchService.searchWithPermission(userMessage, userId, 5);
-            logger.debug("搜索结果数量: {}", searchResults.size());
-            
-            // 4. 构建上下文
-            String context = buildContext(searchResults);
-            logger.info("RAG context built, resultCount: {}, contextLength: {}", searchResults.size(), context.length());
-            
-            // 5. 调用 DeepSeek API 并处理流式响应
+            // 3. 格式化对话历史（供 RAG Pipeline 使用）
+            String chatHistoryStr = formatChatHistory(history);
+
+            // 4. 执行 RAG Pipeline（Stage 1→2→3→4）
+            RagPipeline.RagResult ragResult = ragPipeline.execute(userMessage, userId, chatHistoryStr);
+            logger.info("RAG Pipeline completed. finalDocs={}, intent={}, usedSupplementary={}, isFallback={}",
+                    ragResult.finalDocs().size(),
+                    ragResult.queryInfo() != null ? ragResult.queryInfo().getIntent() : "N/A",
+                    ragResult.usedSupplementaryRetrieval(),
+                    ragResult.isFallback());
+
+            // 5. 构建上下文
+            String context = buildContext(ragResult.finalDocs());
+            logger.info("RAG context built, contextLength: {}", context.length());
+
+            // 6. 调用 DeepSeek API 并处理流式响应
             logger.info("调用DeepSeek API生成回复");
             Disposable stream = deepSeekClient.streamResponse(userMessage, context, history,
                 chunk -> {
@@ -199,6 +210,27 @@ public class ChatHandler {
             logger.error("解析对话历史出错: {}, 会话ID: {}", e.getMessage(), conversationId, e);
             return new ArrayList<>();
         }
+    }
+
+    /**
+     * 格式化对话历史为 RAG Pipeline 可用的字符串。
+     */
+    private String formatChatHistory(List<Map<String, String>> history) {
+        if (history == null || history.isEmpty()) {
+            return "";
+        }
+        StringBuilder sb = new StringBuilder();
+        for (Map<String, String> msg : history) {
+            String role = msg.get("role");
+            String content = msg.get("content");
+            if (content == null || content.isBlank()) continue;
+            if ("user".equals(role)) {
+                sb.append("用户: ").append(content).append("\n");
+            } else if ("assistant".equals(role)) {
+                sb.append("助手: ").append(content).append("\n");
+            }
+        }
+        return sb.toString();
     }
 
     private void updateConversationHistory(String conversationId, String userMessage, String response) {
